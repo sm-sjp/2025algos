@@ -3,4 +3,4 @@
 ## [🗂 ALGOS 네이버 카페](https://cafe.naver.com/smalgos)
 
 ## 📫 CONTACT
-<a href="algos.smu@gmail.com"><"img src=https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white"></a>
+<a href="mailto:algos.smu@gmail.com"><img src="https://img.shields.io/badge/Gmail-EA4335?style=flat-square&logo=Gmail&logoColor=white&link=mailto:algos.smu@gmail.com"/></a></p>
