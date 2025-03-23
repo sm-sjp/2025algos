@@ -4,7 +4,6 @@
     - `weekN` : 1학기, 2학기 과제 제출 시 
     - `dayN` : 여름방학 평일 과제 제출 시
     - `test` : 여름방학 모의고사 과제 제출 시
-    - 예시 : 홍서희_seohee0320/week1/1000.cpp
+    - 예시 : 최연재_0yeonjae2/week1/1000.cpp
 3. Commit changes 클릭 후 Commit directly to the main branch 선택해서 제출
    - 커밋 메시지는 자유롭게 하셔도 됩니다.
-
