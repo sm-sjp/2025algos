@@ -1,0 +1,94 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <climits>
+using namespace std;
+
+struct Point {
+    int ind, v;
+
+    Point(int i = INT_MAX, int val = INT_MAX) : ind(i), v(val) {}
+
+    Point copy() const {
+        return Point(ind, v);
+    }
+
+    static Point min(const Point& p1, const Point& p2) {
+        if (p1.v < p2.v) return p1.copy();
+        else if (p1.v > p2.v) return p2.copy();
+        else return (p1.ind < p2.ind ? p1.copy() : p2.copy());
+    }
+};
+
+class SegmentTree {
+private:
+    vector<Point> tree;
+    int n;
+
+public:
+    SegmentTree(int n) {
+        this->n = n;
+        int height = (int)ceil(log2(n)) + 1;
+        int size = 1 << height;
+        tree.resize(size);
+    }
+
+    Point init(int node, int s, int e, const vector<int>& arr) {
+        if (s == e)
+            return tree[node] = Point(s, arr[s]);
+        int mid = (s + e) / 2;
+        return tree[node] = Point::min(init(node * 2, s, mid, arr),
+                                       init(node * 2 + 1, mid + 1, e, arr));
+    }
+
+    Point queryMin(int node, int s, int e, int l, int r) {
+        if (e < l || r < s)
+            return Point();
+        if (l <= s && e <= r)
+            return tree[node];
+        int mid = (s + e) / 2;
+        return Point::min(queryMin(node * 2, s, mid, l, r),
+                          queryMin(node * 2 + 1, mid + 1, e, l, r));
+    }
+
+    Point update(int node, int s, int e, int ind, int value) {
+        if (ind < s || e < ind)
+            return tree[node];
+        if (s == ind && e == ind) {
+            tree[node].v = value;
+            return tree[node];
+        }
+        int mid = (s + e) / 2;
+        return tree[node] = Point::min(update(node * 2, s, mid, ind, value),
+                                       update(node * 2 + 1, mid + 1, e, ind, value));
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int N;
+    cin >> N;
+    vector<int> arr(N);
+    for (int i = 0; i < N; i++)
+        cin >> arr[i];
+
+    SegmentTree segTree(N);
+    segTree.init(1, 0, N - 1, arr);
+
+    int M;
+    cin >> M;
+    while (M--) {
+        int c, a, b;
+        cin >> c >> a >> b;
+        if (c == 1) {
+            segTree.update(1, 0, N - 1, a - 1, b);
+        } else {
+            Point res = segTree.queryMin(1, 0, N - 1, a - 1, b - 1);
+            cout << res.ind + 1 << '\n';
+        }
+    }
+
+    return 0;
+}
