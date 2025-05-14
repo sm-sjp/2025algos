@@ -1,0 +1,66 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+vector<int> arr;
+vector<vector<int>> tree;
+
+void update(int s, int e, int node, int idx) {
+    if (idx < s || idx > e) return;
+    tree[node].push_back(arr[idx]);
+    if (s == e) return;
+    int mid = (s + e) / 2;
+    update(s, mid, node * 2, idx);
+    update(mid + 1, e, node * 2 + 1, idx);
+}
+
+int upperbound(const vector<int>& data, int val) {
+    int s = 0, e = data.size();
+    while (s < e) {
+        int mid = (s + e) / 2;
+        if (data[mid] <= val) s = mid + 1;
+        else e = mid;
+    }
+    return e;
+}
+
+int getMoreThanNumOfK(int s, int e, int node, int l, int r, int k) {
+    if (r < s || l > e) return 0;
+    if (l <= s && e <= r) {
+        int x = upperbound(tree[node], k);
+        return tree[node].size() - x;
+    }
+    int mid = (s + e) / 2;
+    return getMoreThanNumOfK(s, mid, node * 2, l, r, k) +
+           getMoreThanNumOfK(mid + 1, e, node * 2 + 1, l, r, k);
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+
+    int n;
+    cin >> n;
+    arr.resize(n + 1);
+    tree.resize(n * 4);
+
+    for (int i = 1; i <= n; ++i) {
+        cin >> arr[i];
+        update(1, n, 1, i);
+    }
+
+    for (int i = 0; i < n * 4; ++i) {
+        sort(tree[i].begin(), tree[i].end());
+    }
+
+    int m;
+    cin >> m;
+    while (m--) {
+        int a, b, k;
+        cin >> a >> b >> k;
+        cout << getMoreThanNumOfK(1, n, 1, a, b, k) << '\n';
+    }
+
+    return 0;
+}
