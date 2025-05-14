@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+typedef long long ll;
+vector<ll> tree;
+
+void update(int start, int end, int node, int index, ll value) {
+    if (index < start || index > end) return;
+    if (start == end) {
+        tree[node] += value;
+        return;
+    }
+    int mid = (start + end) / 2;
+    update(start, mid, node * 2, index, value);
+    update(mid + 1, end, node * 2 + 1, index, value);
+    tree[node] = tree[node * 2] + tree[node * 2 + 1];
+}
+
+ll sum(int start, int end, int node, int left, int right) {
+    if (end < left || start > right) return 0;
+    if (left <= start && end <= right) return tree[node];
+    int mid = (start + end) / 2;
+    return sum(start, mid, node * 2, left, right) + sum(mid + 1, end, node * 2 + 1, left, right);
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+
+    int n, q;
+    cin >> n >> q;
+    tree.resize(n * 4);
+
+    while (q--) {
+        int oper;
+        ll p, x;
+        cin >> oper >> p >> x;
+        if (oper == 1) {
+            update(1, n, 1, p, x);
+        } else {
+            cout << sum(1, n, 1, p, x) << '\n';
+        }
+    }
+
+    return 0;
+}
