@@ -1,1 +1,63 @@
 
+#include<iostream>
+#include<vector>
+#include<set>
+#include <string>
+
+using namespace std;
+set<int> s;
+
+int main() {
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+
+	int n;
+	cin >> n;
+
+	for (int i = 0; i < n; i++) {
+		string c;
+		int m;
+		cin >> c;
+		if (c == "all") {
+			for (int j = 1; j <= 20; j++) {
+				s.insert(j);
+			}
+			continue;
+		}
+		else if (c == "empty") {
+			s.clear();
+			continue;
+		}
+		
+		cin >> m;
+
+		if (c == "add") {
+			s.insert(m);
+		}
+		if (c == "toggle") {
+			if (s.find(m) != s.end()) {
+				s.erase(m);
+			}
+			else {
+				s.insert(m);
+			}
+		}
+		else if (c == "remove") {
+			if (s.find(m) != s.end()) {
+				s.erase(m);
+			}
+		}
+		else if (c == "check") {
+			if (s.find(m) != s.end()) {
+				cout << 1<<"\n";
+			}
+			else {
+				cout << 0 << "\n";
+			}
+
+		}
+
+	}
+
+	return 0;
+}
