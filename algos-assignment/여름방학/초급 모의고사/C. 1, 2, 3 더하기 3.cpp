@@ -15,8 +15,7 @@ int main() {
     dp[3] = 4;
 
     for (int i = 4; i <= 1000000; i++) {
-        // dp 합이 int 초과 오버플로우 주의(dp[i-1]+dp[i-2]가
-        // 오버플로우일수있으므로 MOD 해주기)
+        // dp 합이 int 초과 오버플로우 주의(dp[i-1]+dp[i-2]가 오버플로우일수있으므로 MOD 해주기)
         dp[i] = ((dp[i - 1] + dp[i - 2]) % MOD + dp[i - 3]) % MOD;
     }
     while (T--) {
