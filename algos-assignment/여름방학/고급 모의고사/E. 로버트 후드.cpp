@@ -59,7 +59,7 @@ ll rotatingCalipers(const vector<pll>& hull) {
 
 int main() {
     ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
+    cin.tie(0);
 
     cout << fixed;
     cout.precision(6);
